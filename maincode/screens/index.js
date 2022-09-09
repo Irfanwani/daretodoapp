@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
-import { Dimensions, FlatList, View, TouchableOpacity } from "react-native";
+import { Dimensions, FlatList, View } from "react-native";
 import {
 	Button,
 	FAB,
@@ -9,18 +9,17 @@ import {
 	Surface,
 	TextInput,
 	Title,
-	Text,
 	Colors,
 } from "react-native-paper";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { ADD_TODO, COMPELETE_TODO, REMOVE_TODO } from "../store/actiontypes";
-
 import RBSheet from "react-native-raw-bottom-sheet";
 import { backgroundcolor } from "../styles";
 
 import FlashMessage, { showMessage } from "react-native-flash-message";
+
+import { addTodo, removeTodo } from "../store/reducers";
 
 import * as Linking from "expo-linking";
 
@@ -31,10 +30,14 @@ const App = () => {
 	const rbsheet = useRef();
 
 	const { todos } = useSelector((state) => ({
-		todos: state.rootReducer.todos,
+		todos: state.todos,
 	}));
 
 	const dispatch = useDispatch();
+
+	// useEffect(() => {
+
+	// }, [todos])
 
 	const renderItem = ({ item }) => (
 		<Surface
@@ -51,7 +54,7 @@ const App = () => {
 			</HelperText>
 			<IconButton
 				onPress={() => {
-					dispatch({ type: COMPELETE_TODO, payload: todos.indexOf(item) });
+					dispatch(removeTodo(todos.indexOf(item)));
 
 					showMessage({
 						message: "Todo Completed!!!",
@@ -65,7 +68,7 @@ const App = () => {
 			/>
 			<IconButton
 				onPress={() => {
-					dispatch({ type: REMOVE_TODO, payload: todos.indexOf(item) });
+					dispatch(removeTodo(todos.indexOf(item)));
 					showMessage({
 						message: "Todo deleted!",
 						type: "info",
@@ -137,7 +140,7 @@ const App = () => {
 						disabled={title.length > 0 && description.length > 0 ? false : true}
 						icon="check"
 						onPress={() => {
-							dispatch({ type: ADD_TODO, payload: { title, description } });
+							dispatch(addTodo({ title, description }));
 							showMessage({
 								message: "New Todo added successfully!",
 								type: "success",

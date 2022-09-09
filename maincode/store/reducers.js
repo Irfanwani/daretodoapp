@@ -1,27 +1,22 @@
-import { combineReducers } from "redux";
-
-import { ADD_TODO, COMPELETE_TODO, REMOVE_TODO } from "./actiontypes";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	todos: [],
+  todos: [],
 };
 
-const rootReducer = (state = initialState, action) => {
-	switch (action.type) {
-		case ADD_TODO:
-			return {
-				...state,
-				todos: [...state.todos, action.payload],
-			};
-		case COMPELETE_TODO:
-		case REMOVE_TODO:
-			return {
-				...state,
-				todos: state.todos.filter((todo) => state.todos.indexOf(todo) != action.payload),
-			};
-		default:
-			return state;
-	}
-};
+const todoSlice = createSlice({
+  name: "todo",
+  initialState,
+  reducers: {
+    addTodo: ({ todos }, { payload }) => {
+      todos.push(payload);
+    },
+    removeTodo: ({ todos }, { payload }) => {
+      todos.splice(payload, 1);
+    },
+  },
+});
 
-export default rootReducer;
+export const { addTodo, removeTodo } = todoSlice.actions;
+
+export default todoSlice.reducer;
