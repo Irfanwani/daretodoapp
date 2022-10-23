@@ -26,5 +26,6 @@ export default styles = StyleSheet.create({
             borderBottomRightRadius: 1000,
             elevation: 3,
     },
+    loader: {flex: 1, justifyContent: 'center', alignItems: 'center'}
     
 });

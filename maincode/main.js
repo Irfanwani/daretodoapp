@@ -12,7 +12,7 @@ import { Provider } from "react-redux";
 
 import LandingPage from "./screens/landing";
 import Index from "./screens/index";
-import { backgroundcolor } from "./styles";
+import styles, { backgroundcolor } from "./styles";
 import { View } from "react-native";
 
 const StackNavigator = createNativeStackNavigator();
@@ -23,7 +23,7 @@ const App = () => {
 			<PersistGate
 				persistor={persistedStore}
 				loading={
-					<View style={{flex: 1}}>
+					<View style={styles.loader}>
 						<ActivityIndicator color="teal" />
 					</View>
 				}
